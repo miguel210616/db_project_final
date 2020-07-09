@@ -22,6 +22,7 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import axios from 'axios'
 import Alert from '@material-ui/lab/Alert';
+import Navbar from './Navbar';
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -56,17 +57,24 @@ function validateEmail(email){
 function App() {
 
   var columns = [
-    {title: "id", field: "id"}, // , hidden: true
+    {title: "Código de tramite", field: "codTramite"}, // , hidden: true
     {title: "Avatar", render: rowData => <Avatar maxInitials={1} size={40} round={true} name={rowData === undefined ? " " : rowData.nombreUniversidad} />  },
+    {title: "Código de Universidad", field: "codigoUni"},
     {title: "Universidad", field: "nombreUniversidad"},
-    {title: "Tipo Gestión", field: "tiposGestion"},
-    {title: "Codigo", field: "codigo"}
+    {title: "Tipo de Gestión", field: "tiposGestion"},
+    {title: "Departamento Filial", field: "depFilial"},
+    {title: "Nombre Filial", field: "nomFilial"},
+    {title: "Código de Programa Clase", field: "codProgramaClase"},
+    {title: "Nombre de Programa", field: "nomPrograma"},
+    {title: "Año", field: "anio"},
+    {title: "Cantidad de carnés", field: "cantCarnes"}
   ]
 
   var columnsUni = [
-    {title: "id", field: "codigo"}, // , hidden: true
+    {title: "Código de universidad", field: "codigo"}, // , hidden: true
     {title: "Avatar", render: rowData => <Avatar maxInitials={1} size={40} round={true} name={rowData === undefined ? " " : rowData.nombreUniversidad} />  },
     {title: "Universidad", field: "nombreUniversidad"},
+    {title: "Tipo de Gestion", field: "tipoGestion"},
     {title: "# Trámites", field: "cantidad"}
   ]
 
@@ -163,7 +171,7 @@ function App() {
   const agregarIdentity = (newData, resolve) => {
     //validation
     let errorList = []
-    if(newData.first_name === undefined){
+    /*if(newData.first_name === undefined){
       errorList.push("Please enter first name")
     }
     if(newData.last_name === undefined){
@@ -171,7 +179,7 @@ function App() {
     }
     if(newData.email === undefined || validateEmail(newData.email) === false){
       errorList.push("Please enter a valid email")
-    }
+    }*/
 
     if(errorList.length < 1){ //no error
       api.post("/users", newData)
@@ -223,7 +231,7 @@ function App() {
 
   return (
     <div className="App">
-      
+      <Navbar />
       <Grid container spacing={1}>
           <Grid item xs={6}></Grid>
           <Grid item xs={12}>
@@ -237,7 +245,7 @@ function App() {
             }       
           </div>
             <MaterialTable
-              title="Carné Universitario Sunedu"
+              title="Carné Universitario "
               columns={columns}
               data={data}
               icons={tableIcons}
@@ -259,7 +267,7 @@ function App() {
               }}
             />
             <MaterialTable
-              title="# Tramite Sunedu"
+              title="# Trámite por universidad"
               columns={columnsUni}
               data={dataUni}
               icons={tableIcons}
@@ -267,7 +275,7 @@ function App() {
               
             />
             <MaterialTable
-              title="# Carnés Sunedu"
+              title="# Carnés por Facultad"
               columns={columnsCarne}
               data={dataCarne}
               icons={tableIcons}
